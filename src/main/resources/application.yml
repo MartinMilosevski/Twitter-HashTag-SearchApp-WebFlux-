@@ -1,0 +1,4 @@
+twitter:
+  api:
+    url: "https://api.twitter.com/2/tweets/search/recent"
+    bearer-token: "AAAAAAAAAAAAAAAAAAAAANaAxQEAAAAA4%2BGnSP8etNSeyctXklAqzhsQsrk%3DFyE4comHY4vB8GdfgrHAieq1W3Gqo5fP9u5CXCDXZlQn78XKvU"
