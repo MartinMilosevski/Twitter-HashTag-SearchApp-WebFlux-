@@ -6,24 +6,24 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Data
-@Table(name="Tweets")
+
+@Table(name="tweets")
 public class Tweet {
 
     public Long getTweetId() {
-        return TweetId;
+        return tweetId;
     }
 
     public void setTweetId(Long tweetId) {
-        TweetId = tweetId;
+        this.tweetId = tweetId;
     }
 
     public String getAuthorId() {
-        return AuthorId;
+        return authorId;
     }
 
     public void setAuthorId(String authorId) {
-        AuthorId = authorId;
+        this.authorId = authorId;
     }
 
     public String getText() {
@@ -35,16 +35,27 @@ public class Tweet {
     }
 
     @Id
-    private Long TweetId;
+    private Long tweetId;
 
+    public String getHashtag() {
+        return hashtag;
+    }
 
-    public String AuthorId;
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
+    }
+
+    public String authorId;
     public String text;
+    public String hashtag;
 
-    public Tweet(String authorId, String text) {
-        AuthorId = authorId;
+    public Tweet(String authorId, String text,String hashtag) {
+        this.hashtag=hashtag;
+        this.authorId = authorId;
         this.text = text;
     }
+
+    
 
     public Tweet(){}
 
