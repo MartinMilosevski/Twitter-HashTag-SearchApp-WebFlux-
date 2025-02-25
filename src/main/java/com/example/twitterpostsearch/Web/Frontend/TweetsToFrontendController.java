@@ -2,14 +2,12 @@ package com.example.twitterpostsearch.Web.Frontend;
 
 import com.example.twitterpostsearch.Domain.Tweet;
 import com.example.twitterpostsearch.Service.TweetService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/searchTweets")
+@CrossOrigin("http://localhost:3000")
 public class TweetsToFrontendController {
 
     private final TweetService tweetService;
