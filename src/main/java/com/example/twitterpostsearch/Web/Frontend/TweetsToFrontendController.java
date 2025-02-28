@@ -1,6 +1,8 @@
 package com.example.twitterpostsearch.Web.Frontend;
 
+import com.example.twitterpostsearch.Domain.MetaDataForTweets;
 import com.example.twitterpostsearch.Domain.Tweet;
+import com.example.twitterpostsearch.Service.MetaDataForTweetService;
 import com.example.twitterpostsearch.Service.TweetService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -11,10 +13,12 @@ import reactor.core.publisher.Flux;
 public class TweetsToFrontendController {
 
     private final TweetService tweetService;
+    private final MetaDataForTweetService metaDataForTweetService;
 
 
-    public TweetsToFrontendController(TweetService tweetService) {
+    public TweetsToFrontendController(TweetService tweetService, MetaDataForTweetService metaDataForTweetService) {
         this.tweetService = tweetService;
+        this.metaDataForTweetService = metaDataForTweetService;
     }
 
     @GetMapping("/searchtweet")
@@ -27,5 +31,12 @@ public class TweetsToFrontendController {
                     return tweetService.fetchandSaveTweets(hashtag);
                 });
     }
+
+    @GetMapping("/metaDataForTweet")
+    public Flux<MetaDataForTweets> getMetaDataForTweetHashtag(@RequestParam String hashtag) {
+        return  metaDataForTweetService.getMetaDataForTweet(hashtag);
+     }
+
+
 
 }

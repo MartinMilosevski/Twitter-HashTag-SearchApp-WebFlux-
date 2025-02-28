@@ -1,6 +1,7 @@
-CREATE TABLE IF NOT EXISTS tweets (
-        request_id INT PRIMARY KEY,
-        newest_id VARCHAR(255) NOT NULL,
-        oldets_id VARCHAR(255) NOT NULL,
-        count INT NOT NULL
+CREATE TABLE IF NOT EXISTS meta_tweets (
+        request_id SERIAL PRIMARY KEY,
+        newestpostid VARCHAR(255) NOT NULL,
+        oldestpostid VARCHAR(255) NOT NULL,
+        countposts INT NOT NULL,
+        hashtag TEXT NOT NULL
 );

@@ -4,7 +4,7 @@ import com.example.twitterpostsearch.Domain.MetaDataForTweets;
 import com.example.twitterpostsearch.Repository.MetaDataForTweetRepository;
 import com.example.twitterpostsearch.Service.MetaDataForTweetService;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @Service
 public class MetaDataForTweetServiceImpl implements MetaDataForTweetService {
@@ -16,10 +16,7 @@ public class MetaDataForTweetServiceImpl implements MetaDataForTweetService {
     }
 
     @Override
-    public Mono<MetaDataForTweets> getMetaDataForTweet(Long TweetsRequestId) {
-        return metaDataForTweetRepository.findById(TweetsRequestId);
+    public Flux<MetaDataForTweets> getMetaDataForTweet(String Hashtag) {
+        return metaDataForTweetRepository.findAll().filter(r->r.getHashtag().equals(Hashtag));
     }
-
-
-
 }

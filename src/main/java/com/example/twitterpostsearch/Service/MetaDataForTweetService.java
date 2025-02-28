@@ -1,11 +1,10 @@
 package com.example.twitterpostsearch.Service;
 
 import com.example.twitterpostsearch.Domain.MetaDataForTweets;
-import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 public interface MetaDataForTweetService {
 
-    Mono<MetaDataForTweets> getMetaDataForTweet(Long tweetId);
+    Flux<MetaDataForTweets> getMetaDataForTweet(String hashtag);
 
 }
