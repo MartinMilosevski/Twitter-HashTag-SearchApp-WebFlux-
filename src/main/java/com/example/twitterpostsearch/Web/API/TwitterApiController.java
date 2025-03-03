@@ -1,5 +1,4 @@
     package com.example.twitterpostsearch.Web.API;
-
     import com.example.twitterpostsearch.Domain.MetaDataForTweets;
     import com.example.twitterpostsearch.Domain.Tweet;
     import com.example.twitterpostsearch.Repository.MetaDataForTweetRepository;

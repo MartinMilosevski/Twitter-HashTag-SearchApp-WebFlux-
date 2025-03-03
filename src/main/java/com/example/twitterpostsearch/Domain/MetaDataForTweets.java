@@ -7,7 +7,6 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name = "meta_tweets")
 public class MetaDataForTweets {
 
-    //Id na requestot za hashtagot nadvoresen kluc na Tweet koga kje se pobaruva
     @Id
     private Long RequestId;
 

@@ -4,6 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import axios from "axios";
 import {CardGroup, Col, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
+import Tweets from "./Tweets";
+import {QueryClient, QueryClientProvider, useQuery} from "react-query";
+import ShowNewestPost from "./ShowNewestPost";
+import ShowOldestPost from "./ShowOldestPost";
 
 
 const Index= ()=>{
@@ -13,6 +17,9 @@ const Index= ()=>{
     const [hashtag,setHashtag]=useState("")
     const [showSearchDiv,setSearchDiv]=useState(true)
     const [metaDataForTweet,SetmetaDataForTweet]=useState({})
+    const [NewestPost,SetNewestPost]=useState(false)
+    const [OldestPost,SetOldestPost]=useState(false)
+
 
     useEffect(() => {
         if (metaDataForTweet) {
@@ -27,6 +34,7 @@ const Index= ()=>{
 
         const response1=axios.get(`http://localhost:8080/searchTweets/metaDataForTweet?hashtag=${hashtag}`)
         SetmetaDataForTweet((await response1).data)
+
     }
 
 
@@ -115,53 +123,38 @@ const Index= ()=>{
                         </p>
                     </div>
 
+
+
                 </div> :
                     (
-                        <button className={"btn btn-info"} onClick={()=>{handleShowSearchDiv();}}>
-                            Search again
-                        </button>
+                        <div>
+                            <button className={"btn btn-info"} onClick={()=>{
+                                SetNewestPost(true);SetOldestPost(false)
+                            }}>Newest Post</button>
+                            <button className={"btn btn-info"} onClick={() => {
+                                handleShowSearchDiv();
+                            }}>
+                                Search again
+                            </button>
+                            <button className={"btn btn-info"} onClick={()=>{
+                                SetNewestPost(false);SetOldestPost(true)
+                            }}  >Oldest Post</button>
+
+                            {NewestPost ? <ShowNewestPost tweets={tweets} newest={metaDataForTweet[0]?.newestpostid} /> : null}
+                            {OldestPost ? <ShowOldestPost tweets={tweets} oldest={metaDataForTweet[0]?.oldestpostid} /> : null}
+                            {!NewestPost && !OldestPost ?
+                            <Tweets tweets={tweets} hashtag={hashtag} newest={metaDataForTweet[0]?.newestpostid}
+                                    oldest={metaDataForTweet[0]?.oldestpostid}
+                            />
+                            :null}
+                        </div>
                     )
                 }
 
-                    <div>
-                        {tweets.length === 0 ? <h1 style={{fontFamily:"PlayFair Display",padding:10,color:"blue"}}>No tweets Searched</h1> :
-                            <Row className={"g-4"}>
-                                {tweets.map(tweet=>{
-                                    return(
-                                        <Col sm={12} md={6} lg={4} key={tweet.tweetId}>
-                                            <CardGroup>
-                                                <Card style={{ width: '15rem',height:"350px" }}>
-                                                    <Card.Img variant="top" src={"image.png"}
-                                                              style={{width:"50px",height:"50px",display:"flex"}}/>
-                                                    <Card.Body>
-                                                        <Card.Title>
-                                                            {metaDataForTweet.newestpostid === tweet.authorId ? <h1>Newest Post </h1> : null}
-                                                            {console.log(metaDataForTweet.newestpostid)}
-                                                            {console.log(tweet.authorId+"asdasd")}
-                                                            Tweet Author ID:
-                                                            {tweet.authorId}</Card.Title>
-                                                        <Card.Text>
-                                                            {tweet.text}
-                                                        </Card.Text>
-                                                        <p>Hashtag: #{tweet.hashtag}</p>
-                                                    </Card.Body>
-                                                </Card>
-                                            </CardGroup>
-                                        </Col>
-                                    );
-                                })}
-                            </Row>
-                        }
-                    </div>
-                </div>
+
+            </div>
             </div>
         </div>
-
-
     );
-
-
-
-
 }
 export default Index;
