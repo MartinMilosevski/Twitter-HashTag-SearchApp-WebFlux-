@@ -1,7 +1,6 @@
 package com.example.twitterpostsearch.Service.Impl;
 import com.example.twitterpostsearch.Web.API.TwitterApiController;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import com.example.twitterpostsearch.Domain.Tweet;
 import com.example.twitterpostsearch.Repository.TweetRepository;
 import com.example.twitterpostsearch.Service.TweetService;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Service
 public class TweetServiceImpl implements TweetService {
@@ -60,6 +61,18 @@ public class TweetServiceImpl implements TweetService {
                     return getTweets(Hashtag);
                 })
                 .doOnError(e -> System.out.println("Error during fetch: " + e.getMessage()));
+    }
+
+
+    public Flux<Tweet> streamTweets() {
+        return Flux.interval(Duration.ofSeconds(1))
+                .flatMap(t -> tweetRepository.findAll());
+    }
+
+    @Override
+    public Flux<Tweet> streamTweetsByHashtag(String hashtag) {
+        return Flux.interval(Duration.ofSeconds(1))
+                .flatMap(i -> tweetRepository.findAllByHashtag(hashtag));
     }
 
 }

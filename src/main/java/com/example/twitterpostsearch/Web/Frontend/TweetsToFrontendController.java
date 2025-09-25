@@ -4,6 +4,7 @@ import com.example.twitterpostsearch.Domain.MetaDataForTweets;
 import com.example.twitterpostsearch.Domain.Tweet;
 import com.example.twitterpostsearch.Service.MetaDataForTweetService;
 import com.example.twitterpostsearch.Service.TweetService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -16,9 +17,12 @@ public class TweetsToFrontendController {
     private final MetaDataForTweetService metaDataForTweetService;
 
 
-    public TweetsToFrontendController(TweetService tweetService, MetaDataForTweetService metaDataForTweetService) {
+
+    public TweetsToFrontendController(TweetService tweetService
+            , MetaDataForTweetService metaDataForTweetService) {
         this.tweetService = tweetService;
         this.metaDataForTweetService = metaDataForTweetService;
+
     }
 
     @GetMapping("/searchtweet")
@@ -38,5 +42,9 @@ public class TweetsToFrontendController {
      }
 
 
+    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Tweet> streamTweetsByHashtag(@RequestParam String hashtag) {
+        return tweetService.streamTweetsByHashtag(hashtag);
+    }
 
 }
