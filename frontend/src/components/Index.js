@@ -20,22 +20,24 @@ const Index = () => {
 
 
     useEffect(() => {
-        if (metaDataForTweet) {
-            console.log("Meta data updated:", metaDataForTweet);
-        }
-    }, [metaDataForTweet]);
-
-
-    useEffect(() => {
         if (hashtag.trim() === "") return;
-        const intervalId = setInterval(() => {
-            axios.get(`http://localhost:8080/searchTweets/searchtweet?hashtag=${hashtag}`)
-                .then(res => setTweets(res.data))
-                .catch(err => console.error(err));
-        }, 5000);
-        return () => clearInterval(intervalId);
-    }, [hashtag]);
 
+        const eventSource = new EventSource(`http://localhost:8080/searchTweets/searchtweet?hashtag=${hashtag}`);
+
+        eventSource.onmessage = (event) => {
+            const newTweet = JSON.parse(event.data);
+            setTweets((prevTweets) => [newTweet, ...prevTweets]);
+        };
+
+        eventSource.onerror = (err) => {
+            console.error("EventSource failed:", err);
+            eventSource.close();
+        };
+
+        return () => {
+            eventSource.close();
+        };
+    }, [hashtag]);
 
 
     const takeTweetsFromBackend = async () => {

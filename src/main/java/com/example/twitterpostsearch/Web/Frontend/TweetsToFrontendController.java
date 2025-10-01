@@ -25,7 +25,7 @@ public class TweetsToFrontendController {
 
     }
 
-    @GetMapping("/searchtweet")
+    @GetMapping(value = "/searchtweet", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Tweet> getAllTweetsFromHashtag(@RequestParam String hashtag) {
         return tweetService.getHashtag(hashtag)
                 .flatMapMany(exists->{
